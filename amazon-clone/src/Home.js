@@ -5,7 +5,7 @@ function Home() {
   return (
     <div className="home">
         <div className="home__container">
-            <img src="../images/amazon_home.jpg" />
+            <img className="home__image" src="../images/amazon_home.jpg" />
         </div>
     </div>
   )
