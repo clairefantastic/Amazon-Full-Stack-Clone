@@ -6,7 +6,7 @@ import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 function Header() {
   return (
     <div className='header'>
-        <img className="header__logo" src="https://www.pngall.com/amazon-logo-white-png/download/143598"/>
+        <img className="header__logo" src="../images/amazon_logo.png"/>
         <div className="header__search">
             <input className="header__searchInput" type="text" />
             <SearchIcon className="header__searchIcon"/>
