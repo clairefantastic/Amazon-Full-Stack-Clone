@@ -1,17 +1,36 @@
 import React, { useState } from 'react'
 import './Login.css'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { auth } from './firebase';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 
 function Login() {
+    const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const signIn = e => {
+    const signIn = async (e) => {
         e.preventDefault();
-        // Firebase login
+        try {
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            console.log('User signed in:', userCredential.user);
+            navigate('/');
+        } catch (error) {
+            console.error('Error signing in:', error)
+            alert(error.message)
+        }
     }
-    const register = e => {
+    const register = async (e) => {
         e.preventDefault();
-        // Firebase register
+        try {
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            console.log('User created:', userCredential.user);
+            if (userCredential) {
+                navigate('/');
+            }
+        } catch (error) {
+            console.error('Error registering:', error)
+            alert(error.message)
+        }
     }
     return (
         <div className="login">
