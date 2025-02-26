@@ -4,6 +4,7 @@ import Header from "./Header";
 import Home from "./Home";
 import Checkout from "./Checkout";
 import Login from "./Login";
+import Payment from "./Payment";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Switch } from "@mui/material";
 import { auth } from "./firebase";
@@ -40,6 +41,13 @@ function App() {
             <>
               <Header />
               <Checkout />
+            </>
+            }>
+          </Route>
+          <Route path="/payment" element={
+            <>
+              <Header />
+              <Payment />
             </>
             }>
           </Route>
