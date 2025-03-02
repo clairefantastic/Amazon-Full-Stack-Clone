@@ -5,6 +5,7 @@ import Home from "./Home";
 import Checkout from "./Checkout";
 import Login from "./Login";
 import Payment from "./Payment";
+import Orders from "./Orders";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Switch } from "@mui/material";
 import { auth } from "./firebase";
@@ -56,6 +57,13 @@ function App() {
                 <Payment />
               </Elements>
             </>
+            }>
+          </Route>
+          <Route path="/orders" element={
+              <>
+              <Header />
+              <Orders />
+              </>
             }>
           </Route>
           <Route path="/" element={
