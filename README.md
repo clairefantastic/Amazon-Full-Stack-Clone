@@ -44,15 +44,3 @@ The **Amazon Full-Stack Clone** is a fully functional e-commerce web application
 - **Git & GitHub:** For **version control** and **collaborative development**.
 - **Bash:** Automated **build** and **deployment scripts**.
 
----
-
-## 📦 **Installation Instructions**
-
-### **1. Clone the Repository:**
-```bash
-git clone https://github.com/<your-username>/amazon-clone.git
-cd amazon-clone
-
-### **2. Install Dependencies:**
-```bash
-npm install
