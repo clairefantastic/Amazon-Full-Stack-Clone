@@ -52,3 +52,7 @@ The **Amazon Full-Stack Clone** is a fully functional e-commerce web application
 ```bash
 git clone https://github.com/<your-username>/amazon-clone.git
 cd amazon-clone
+
+### **2. Install Dependencies:**
+```bash
+npm install
