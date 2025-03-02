@@ -7,6 +7,8 @@ import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import CurrencyFormat from 'react-currency-format';
 import { getBasketTotal } from './reducer';
 import instance from './axios';
+import { auth, db } from './firebase';
+import { collection, doc, setDoc } from "firebase/firestore";
 
 function Payment() {
   const navigate = useNavigate();
@@ -36,20 +38,57 @@ function Payment() {
 
   console.log("The client secret is >>> ", clientSecret);
 
-  const handleSubmit = async event => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     setProcessing(true);
-    const payload = await stripe.confirmCardPayment(clientSecret, {
-        payment_method: {
-            card: elements.getElement(CardElement)
+
+    try {
+        const payload = await stripe.confirmCardPayment(clientSecret, {
+            payment_method: {
+                card: elements.getElement(CardElement),
+            },
+        });
+
+        if (payload.error) {
+            console.error("❌ Payment Error:", payload.error.message);
+            setError(`Payment failed: ${payload.error.message}`);
+            setProcessing(false);
+            return;
         }
-    }).then(({ payment}) => {
+
+        const paymentIntent = payload.paymentIntent; 
+
+        if (!user || !user.uid || !paymentIntent || !paymentIntent.id) {
+            console.error("❌ Error: Missing user or payment details");
+            setProcessing(false);
+            return;
+        }
+
+        const orderRef = doc(collection(db, "users", user.uid, "orders"), paymentIntent.id);
+
+        await setDoc(orderRef, {
+            basket: basket,
+            amount: paymentIntent.amount,
+            created: paymentIntent.created,
+        });
+
+        console.log("✅ Order saved successfully!");
+
         setSucceeded(true);
         setError(null);
         setProcessing(false);
-        navigate('/orders', { replace: true });
-    })
-  };
+
+        dispatch({
+            type: "EMPTY_BASKET",
+        });
+
+        navigate("/orders", { replace: true });
+    } catch (error) {
+        console.error("❌ Error in handleSubmit:", error);
+        setError("An error occurred while processing payment.");
+        setProcessing(false);
+    }
+};
   const handleChange = event => {
     setDisabled(event.empty);
     setError(event.error ? event.error.message : "");
